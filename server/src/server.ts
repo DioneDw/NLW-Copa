@@ -1,17 +1,23 @@
 import Fastify from "fastify";
 import { PrismaClient} from '@Prisma/client';
 
+import cors from '@fastify/cors';
+
 const prisma = new PrismaClient({
   log: ['query'],
 
 })
-
 
 async function bootstrap(){
  
   const fastify = Fastify({
     logger: true,
   })
+
+
+await fastify.register(cors, {
+  origin: true,
+})
 
 // Primeira porta - bolão
 fastify.get('/pools/count', async ()=> {
@@ -20,12 +26,7 @@ fastify.get('/pools/count', async ()=> {
   return {count}
 })
 
-
-
-
-
-await fastify.listen({ port:3333 })
-
+await fastify.listen({ port:3333, host:'0.0.0.0'})
 
 }
 bootstrap()
