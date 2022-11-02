@@ -1,4 +1,10 @@
 import Fastify from "fastify";
+import { PrismaClient} from '@Prisma/client';
+
+const prisma = new PrismaClient({
+  log: ['query'],
+
+})
 
 
 async function bootstrap(){
@@ -8,8 +14,10 @@ async function bootstrap(){
   })
 
 // Primeira porta - bolão
-fastify.get('/pools/count', (req, res)=> {
-  return { count : 0}
+fastify.get('/pools/count', async ()=> {
+ const count= await prisma.pool.count()
+
+  return {count}
 })
 
 
