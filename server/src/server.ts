@@ -46,15 +46,13 @@ fastify.post('/pools', async (request, reply)=> {
   }
  })
 
-  reply.status(201).send(code)
-
- return { code }
+ return reply.status(201).send({code})
  })
 
 // Contagens de usuário - bolão
 fastify.get('/users/count', async ()=> {
   const count= await prisma.user.count()
- 
+
    return {count}
  })
 
