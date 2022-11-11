@@ -47,6 +47,18 @@ fastify.post('/users', async (request)=>{
     })
   }
 
-  return { userInfo }
+const token = fastify.jwt.sign({
+  name: user.name,
+  avatarUrl: user.avatarUrl
+},
+{
+  sub: user.id,
+  expiresIn: '2 days',
+}
+
+
+)
+
+  return { token }
 })
 }
