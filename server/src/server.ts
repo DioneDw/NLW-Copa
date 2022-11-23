@@ -21,7 +21,6 @@ await fastify.register(cors, {
 // Deve virar um variável de ambiente posteriormente, somente para demonstração atual.
 await fastify.register(jwt, {
   secret: 'nlwcopa',
-
 })
 
 await fastify.register(poolRoutes)

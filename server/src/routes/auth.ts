@@ -1,8 +1,18 @@
 import { FastifyInstance } from 'fastify'
 import { z } from 'zod'
-import { prisma } from '../lib/prisma'
+import { prisma } from '../lib/prisma';
+import { authenticate } from '../plugins/authenticate';
 
 export async function authRoutes(fastify: FastifyInstance ){
+
+fastify.get('/me', 
+{ onRequest: [authenticate] },
+
+async (request) => {
+  return { user: request.user }
+})
+
+
 fastify.post('/users', async (request)=>{
  
   const createUserBody = z.object({
@@ -15,7 +25,7 @@ fastify.post('/users', async (request)=>{
   {
     method: 'GET',
     headers: {
-      Authorization: `Bearer ${access_token}`
+      Authorization: `Bearer ${access_token}`,
     }
   })
   
@@ -55,8 +65,6 @@ const token = fastify.jwt.sign({
   sub: user.id,
   expiresIn: '2 days',
 }
-
-
 )
 
   return { token }
