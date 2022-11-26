@@ -40,7 +40,7 @@ data: {
 
      guesses: {create:{
       firstTeamPoints: 2,
-      secondTeamPoits: 1,
+      secondTeamPoints: 1,
       
        participant: {connect: {
          userId_poolId: {

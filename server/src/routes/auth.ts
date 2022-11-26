@@ -5,6 +5,7 @@ import { authenticate } from '../plugins/authenticate';
 
 export async function authRoutes(fastify: FastifyInstance ){
 
+// Retorna os dados do usuário, definido conforme o arquivo no @types
 fastify.get('/me', 
 { onRequest: [authenticate] },
 
@@ -12,7 +13,7 @@ async (request) => {
   return { user: request.user }
 })
 
-
+// Retorna o token jwt de autenticação se o token passado for validado corretamente.
 fastify.post('/users', async (request)=>{
  
   const createUserBody = z.object({
@@ -68,50 +69,6 @@ const token = fastify.jwt.sign({
 )
 
   return { token }
-})
-
-fastify.get('/pools', {
-  onRequest: [authenticate]
-}, 
-async (request)=> {
- const pools = await prisma.pool.findMany({
-  where: {
-    participants: {
-      some: {
-        userId: request.user.sub, 
-      }
-    }
-  },
-  include: {
-    _count: {
-     select:{
-      participants: true,
-     }
-    },
-    participants:{
-      select:{
-        id: true,
-        user:{
-          select:{
-            avatarUrl: true,
-          }
-        }
-      },
-      take: 4,
-    },
-    owner: {
-      select: {
-        id: true,
-        name: true,
-      }
-    }
-  }
-
-
-
- })
- return { pools }
-
 })
 
 }

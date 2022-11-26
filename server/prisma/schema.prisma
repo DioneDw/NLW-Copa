@@ -61,8 +61,8 @@ model Game {
 
 model Guess {
   id              String @id @default(cuid())
-  firstTeamPoints Int
-  secondTeamPoits Int
+  firstTeamPoints  Int
+  secondTeamPoints Int
   gameId          String
   participantId   String
 
